@@ -36,7 +36,7 @@
     .clock {
       width: 30rem;
       height: 30rem;
-      border:20px solid white;
+      border:20px solid yellow;
       border-radius:50%;
       margin:50px auto;
       position: relative;
@@ -61,13 +61,39 @@
       background:black;
       position: absolute;
       top:50%;
+      transform-origin: 100%;
+      /*transform: rotate(90deg);*/
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(.86,2.63,.36,1);
     }
 
   </style>
 
   <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minuteHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
 
+    // refactored fn:
+    function clockEngine(timeUnit, timeUnitQty, timeElem) {
+        const timeDegrees = ((timeUnit / timeUnitQty) * 360) + 90;
+        timeElem.style.transform = `rotate(${timeDegrees}deg)`;
+    }
 
+    function setDate() {
+        const now = new Date();
+        const seconds = now.getSeconds();
+        const minutes = now.getMinutes()
+        const hour = now.getHours()
+
+        clockEngine(seconds, 60, secondHand);
+        clockEngine(minutes, 60, minuteHand);
+        clockEngine(hour, 12, hourHand);
+
+        console.log(`${hour} : ${minutes} : ${seconds}`);
+    }
+
+setInterval(setDate, 1000);
   </script>
 </body>
 </html>
