@@ -104,6 +104,26 @@
   </div>
 
 <script>
+  // Let's find the .inbox element with JavaScript and see what it offers us:
+  const inbox = document.querySelector('.inbox');
+  console.table(inbox);
+
+  // .inbox is a div with nine children, each of them is a div.item
+  // Let's look at one child, and check it:
+  inbox.children[2].children[0].checked = true; // this line checks the third checkbox using JavaScript
+
+  // The logic is, if you click index 2, and then shift+click on another index, write some code that:
+  // 1 - Knows which index was clicked
+  // 2 - Once you have a start/end, you can use JavaScript to check all the remaining boxes.
+  // 3 - If you check 5, then 2, boxes 2 through 5 should be checked. If you shift+click again on box 7, boxes 2 through 7 should be clicked.
+  // So, the code needs to always look for the lowest checked value, highest checked value, and if you click below or above that, set a new low/high limit for what is checked.
+
+  // 4 - You also need to find out the SHIFT keycode. 
+  const isShiftPressed = (e => console.log(`Was the SHIFT key pressed while you cliked? ${e.shiftKey}`));
+  document.addEventListener('click', isShiftPressed);
+  
+
+
 </script>
 </body>
 </html>
