@@ -106,21 +106,62 @@
 <script>
   // Let's find the .inbox element with JavaScript and see what it offers us:
   const inbox = document.querySelector('.inbox');
+  const items = [].slice.call(document.querySelectorAll('.item')); // This returns a node list of all elements with the class of .item
   console.table(inbox);
+  console.table(items);
 
   // .inbox is a div with nine children, each of them is a div.item
   // Let's look at one child, and check it:
-  inbox.children[2].children[0].checked = true; // this line checks the third checkbox using JavaScript
+  // inbox.children[2].children[0].checked = true; // this line checks the third checkbox using JavaScript
+  // items.forEach(item => item.children[0].checked = true); // This is how I can check every box with JavaScript. So we have to set a start/stop with this.
 
   // The logic is, if you click index 2, and then shift+click on another index, write some code that:
-  // 1 - Knows which index was clicked
+  // 1 - Knows which indeces are checked
   // 2 - Once you have a start/end, you can use JavaScript to check all the remaining boxes.
   // 3 - If you check 5, then 2, boxes 2 through 5 should be checked. If you shift+click again on box 7, boxes 2 through 7 should be clicked.
   // So, the code needs to always look for the lowest checked value, highest checked value, and if you click below or above that, set a new low/high limit for what is checked.
+  // Except, here is an edge case:
+    // You click index 2. 
+    // You click index 7.
+    // You then SHIFT+click index 4
+    // Do you have to SHIFT+click only the second value in the range? Will the 
 
   // 4 - You also need to find out the SHIFT keycode. 
-  const isShiftPressed = (e => console.log(`Was the SHIFT key pressed while you cliked? ${e.shiftKey}`));
-  document.addEventListener('click', isShiftPressed);
+  const isShiftPressed = (e => {
+    const checkedList = [];
+    // console.log(`Was the SHIFT key pressed while you clicked? ${e.shiftKey}`)
+    console.info(e.target);
+    // console.log('testing?');
+
+    if (e.shiftKey) {
+    
+      items.forEach( (item, index) => {
+        console.log('is item checked?', index, item.children[0].checked);
+        console.table(item);
+
+        // Find out which checkboxes are checked
+        if (item.children[0].checked) {
+          console.log('*** ITEM IS CHECKED', index, item.children[0].checked);
+          checkedList.push(index);
+          console.log(`checkedList: ${checkedList}`);
+        }
+      });
+      console.log('typeof:', typeof checkedList);
+      
+      let min = checkedList[0];
+      let max = checkedList[checkedList.length - 1];
+      console.log(min, max);
+      
+      const rangeToCheck = items.slice(min, max);
+      console.log(`rangeToCheck: ${JSON.stringify(rangeToCheck)}`)
+      rangeToCheck.forEach( item => item.children[0].checked = true);
+    }
+    console.log(`checkedList: ${checkedList}`);
+    return checkedList;
+
+  });
+
+  inbox.addEventListener('click', isShiftPressed);
   
 
 
