@@ -129,12 +129,13 @@
   // 4 - You also need to find out the SHIFT keycode. 
   const isShiftPressed = (e => {
     const checkedList = [];
-    // console.log(`Was the SHIFT key pressed while you clicked? ${e.shiftKey}`)
-    console.info(e.target);
-    // console.log('testing?');
+    console.info('e.target', e.target);
+    
+    const lastIndexClicked = items.indexOf(e.target.parentNode);
+    console.log(`index of last clicked ${lastIndexClicked}`);
 
     if (e.shiftKey) {
-    
+      // Find which indeces of the inbox are selected:
       items.forEach( (item, index) => {
         console.log('is item checked?', index, item.children[0].checked);
         console.table(item);
@@ -147,13 +148,16 @@
         }
       });
       console.log('typeof:', typeof checkedList);
+      console.log(`checkedList.length: ${checkedList.length}`);
+      
       
       let min = checkedList[0];
       let max = checkedList[checkedList.length - 1];
       console.log(min, max);
       
       const rangeToCheck = items.slice(min, max);
-      console.log(`rangeToCheck: ${JSON.stringify(rangeToCheck)}`)
+      // console.log(`rangeToCheck: ${JSON.stringify(rangeToCheck)}`)
+      console.info(rangeToCheck)
       rangeToCheck.forEach( item => item.children[0].checked = true);
     }
     console.log(`checkedList: ${checkedList}`);
@@ -161,8 +165,11 @@
 
   });
 
-  inbox.addEventListener('click', isShiftPressed);
-  
+  // inbox.addEventListener('click', isShiftPressed);
+  // Add the event listener to each item, instead of to the inbox; the reason is that if I held SHIFT and clicked on a paragraph, and didnt' select a checkbox, and didn't add any "if (checkedList.length < 0 )" logic, it was selecting every single checkbox. This is a more specific approach, otherwise, we can joke about "it's a feature, not a bug".
+  items.forEach(item => {
+    item.addEventListener('click', isShiftPressed);
+  })
 
 
 </script>
