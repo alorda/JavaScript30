@@ -18,7 +18,31 @@ function togglePlay() {
   }
 }
 
-// Event Listeners
+function updateButton() {
+  const icon = this.paused ? '►' : '❚ ❚'
+  toggle.textContent = icon
+}
 
-video.addEventListener('click', (e) => togglePlay(e))
-toggle.addEventListener('click', (e) => togglePlay(e))
+function skip() {
+  console.log(this.dataset.skip)
+  video.currentTime += parseFloat(this.dataset.skip)
+}
+
+function handleRangeUpdate() {
+  console.log(this.value)
+  console.log(this.name)
+  video[this.name] = this.value
+
+}
+
+
+// Event Listeners
+toggle.addEventListener('click', togglePlay)
+
+video.addEventListener('click', togglePlay)
+video.addEventListener('play', updateButton)
+video.addEventListener('pause', updateButton)
+
+skipButtons.forEach(button => button.addEventListener('click', skip))
+
+ranges.forEach(range => range.addEventListener('change', handleRangeUpdate))
