@@ -3,10 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <title>Key Detection</title>
-  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js">
+  </script>
 </head>
 <body>
 <script>
+  let pressedKeys = []
+  const konamiCode = [
+    'ArrowUp',
+    'ArrowUp',
+    'ArrowDown',
+    'ArrowDown',
+    'ArrowLeft',
+    'ArrowRight',
+    'ArrowLeft',
+    'ArrowRight',
+    'b',
+    'a'
+  ]
+
+  let codeEntered = false;
+
+  window.addEventListener('keyup', (e) => {
+    console.log(e.key)
+    pressedKeys.push(e.key)
+    
+    // Compare the arrays for equality If they match, show an alert! Success!
+    if (
+      pressedKeys.length >= konamiCode.length &&
+      konamiCode.join('') === pressedKeys.slice(pressedKeys.length - konamiCode.length).join('') 
+    ) {
+      window.alert(`You've unlocked the code!`)
+      console.log({pressedKeys})
+      // Clear the array so you can start again.
+      // pressedKeys = []
+    } 
+  })
 </script>
 </body>
 </html>
