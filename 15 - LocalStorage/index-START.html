@@ -30,12 +30,8 @@
   const itemsList = document.querySelector('.plates');
   const items = JSON.parse(localStorage.getItem('items')) || [];
 
-  console.log({items});
-  
-
   function addItem(e) {
     e.preventDefault()
-    console.log(`this :`, this);
     const text = (this.querySelector('[name=item]')).value
     const item = {
       text,
@@ -59,7 +55,17 @@
     }).join('')
   }
 
+  function toggleDone(e) {
+    if (!e.target.matches('input')) return
+    const element = e.target
+    items[element.dataset.index].done = !items[element.dataset.index].done
+    localStorage.setItem('items', JSON.stringify(items))
+    populateList(items, itemsList)
+  }
+
+  // EVENT LISTENERS
   addItems.addEventListener('submit', addItem)
+  itemsList.addEventListener('click', toggleDone)
 
   populateList(items, itemsList)
 
