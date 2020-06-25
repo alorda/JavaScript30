@@ -46,9 +46,11 @@ function toggleFullscreen(e) {
   if (document.fullscreenEnabled && video.requestFullscreen) {
     video.requestFullscreen()
   } else {
-
+// TODO I need a way to handle any errors
   }
 }
+
+// TODO : How do you add controls and a warning when users go into fullscreen mode? 
 
 // Event Listeners
 toggle.addEventListener('click', togglePlay)
